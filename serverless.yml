@@ -9,13 +9,19 @@ provider:
   region: ${opt:region, 'us-east-1'}
 
 functions:
-  app:
+  authorizer:
+    handler: functions/authorizer.handler
+  hello-world:
     handler: functions/app.handler
     events:
       - http:
           method: "GET"
           cors: true
           path: /hello-world
+          authorizer:
+            name: authorizer
+            type: token
+            identitySource: method.request.header.Authorization
 
 plugins:
   - serverless-offline
