@@ -1,0 +1,21 @@
+service: heyy-backend
+org: learnuidev
+app: heyy-backend
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+
+functions:
+  app:
+    handler: functions/app.handler
+    events:
+      - http:
+          method: "GET"
+          cors: true
+          path: /hello-world
+
+plugins:
+  - serverless-offline
